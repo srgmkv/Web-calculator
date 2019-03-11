@@ -1,5 +1,5 @@
-const display = document.getElementById('field');
-const resField = document.getElementById('result');
+const display = document.querySelector('#field');
+const resField = document.querySelector('#result');
 const numButtons = document.querySelectorAll('.num');
 const acBut = document.querySelector('.ac');
 const ceBut = document.querySelector('.ce');
@@ -32,36 +32,31 @@ function toField() {
 };
 numButtons.forEach(button => button.addEventListener('click', toField));
 
-
-function dot() {
+dotBut.onclick = () => {
   const resF = resField.textContent;
   if (resF === '' || isEqualFirst()) resField.textContent = '0';
 
-  resField.textContent += this.textContent;
+  resField.textContent += '.';
 
   if (isDot(resF)) {
     resField.textContent = resF;
   }
 };
-dotBut.onclick = dot;
 
-const toClearAll = () => {
+acBut.onclick = () => {
   resField.style.fontSize = '';
   resField.textContent = '0';
   display.value = '';
-}
-acBut.onclick = toClearAll;
+};
 
-const toClear = () => {
+ceBut.onclick = () => {
   resField.style.fontSize = '';
   resField.textContent = '0';
-}
-ceBut.onclick = toClear;
+};
 
-const delSymbol = () => {
+bsBut.onclick = () => {
   resField.textContent = resField.textContent.substr(0, resField.textContent.length - 1);
-}
-bsBut.onclick = delSymbol;
+};
 
 const mathTable = {
   '+': (x, y) => x + y,
@@ -69,7 +64,7 @@ const mathTable = {
   '\xF7': (x, y) => x / y,
   '\xD7': (x, y) => x * y,
   '\u221A': (x, y) => Math.sqrt(x),
-  '1/x': (x, y) => 1 / x,
+  'reciproc': (x, y) => 1 / x,
 };
 
 const fuun = (op) => {
@@ -87,7 +82,7 @@ const fuun = (op) => {
   }
 
   if (!val1 && val2) {
-    display.value += `${val2} ${op}`;
+    display.value = `${val2} ${op}`;
   }
   if (arr.length === 2 && !val2) {
     display.value = `${val1} ${op}`;
@@ -100,31 +95,19 @@ const fuun = (op) => {
   display.style.fontSize = (display.value.length > 17) ? '14px' : '';
 };
 
-const add = () => fuun('+');
-addBut.onclick = add;
+addBut.onclick = () => fuun('+');
 
-const sub = () => fuun('-');
-subBut.onclick = sub;
+subBut.onclick = () => fuun('-');
 
-const div = () => fuun('\xF7');
-divBut.onclick = div;
+divBut.onclick = () => fuun('\xF7');
 
-const mul = () => fuun('\xD7');
-mulBut.onclick = mul;
+mulBut.onclick = () => fuun('\xD7');
 
-const sqrt = () => {
-  fuun('\u221A');
-  res();
-}
-sqrtBut.onclick = sqrt;
+sqrtBut.onclick = () => fuun('\u221A');
 
-const divByX = () => {
-  fuun('1/x');
-  res();
-}
-byXbut.onclick = divByX;
+byXbut.onclick= () => fuun('reciproc');
 
-const res = () => {
+resBut.onclick = () => {
   const resF = resField.textContent;
   const val1 = parseFloat(display.value.split(' ')[0]);
   const val2 = parseFloat(resF);
@@ -137,4 +120,3 @@ const res = () => {
   }
   resField.textContent.length > 17 ? resField.style.fontSize = '14px' : resField.style.fontSize = '';
 };
-resBut.onclick = res;
